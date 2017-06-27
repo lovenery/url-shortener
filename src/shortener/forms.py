@@ -2,7 +2,15 @@ from django import forms
 from .validators import validate_url, validate_dot_com
 
 class SubmitUrlForm(forms.Form):
-    url = forms.CharField(label='Your original URL here', validators=[validate_url, validate_dot_com])
+    url = forms.CharField(
+        label='Hi',
+        widget = forms.TextInput(
+            attrs = {
+                "placeholder": "Your original URL here"
+            }
+        ),
+        validators=[validate_url, validate_dot_com]
+    )
 
     # def clean(self):
     #     cleaned_data = super(SubmitUrlForm, self).clean()
