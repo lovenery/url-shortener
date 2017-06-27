@@ -26,6 +26,8 @@ class HomeView(View):
         if form.is_valid():
             # print("views.py, if form.is_valid(), form.cleaned_data: ", form.cleaned_data)
             new_url = form.cleaned_data.get("url")
+            if not "http" in new_url:
+                new_url = "http://" + new_url
             obj, created = KirrURL.objects.get_or_create(url=new_url)
             context = {
                 "object": obj,
