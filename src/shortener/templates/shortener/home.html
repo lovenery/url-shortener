@@ -1,8 +1,8 @@
 <div>
-    <h1>Simplify your links</h1>
+    <h1>{{ title }}</h1>
     <form method="POST" action=".">
         {% csrf_token %}
-        <input name='url' type="text" placeholder="Your original URL here">
+        {{ form.as_p }}
         <input type="submit" value="Shorten URL">
     </form>
 </div>
