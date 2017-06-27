@@ -1,9 +1,11 @@
 from django.conf import settings
 from django.db import models
+from django.core.urlresolvers import reverse
 from .utils import code_generator, create_shortcode
 from .validators import validate_url, validate_dot_com
 
 SHORTCODE_MAX = getattr(settings, "SHORTCODE_MAX", 15)
+APP_URL = getattr(settings, "APP_URL")
 
 class KirrURLManager(models.Manager):
     def all(self, *args, **kwargs):
@@ -40,3 +42,7 @@ class KirrURL(models.Model):
 
     def __unicode__(self): # for python2
         return str(self.url)
+
+    def get_short_url(self):
+        url_path = reverse("scode", kwargs={'shortcode': self.shortcode})
+        return APP_URL + url_path
