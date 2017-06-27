@@ -43,10 +43,7 @@ class KirrRedirectView(View): # class based view CBV
         obj = get_object_or_404(KirrURL, shortcode=shortcode)
         ClickEvent.objects.create_event(obj)
         # return HttpResponse("URL: {sc}".format(sc=obj.url))
-        new_url = obj.url
-        if not "http" in new_url:
-            new_url = "http://" + new_url
-        return HttpResponseRedirect(new_url)
+        return HttpResponseRedirect(obj.url)
 
     def post(self, request, *args, **kwargs):
         return HttpResponse()
