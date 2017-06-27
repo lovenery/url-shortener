@@ -13,11 +13,11 @@ cd url-shortener
 virtualenv venv
 . venv/bin/activate
 pip install -r requirements.txt
+cp .env.example .env
+vim .env
 
 # Development
 cd src
-cp .env.example .env
-vim .env
 python manage.py migrate
 python manage.py createsuperuser
 python manage.py runserver
