@@ -2,5 +2,8 @@
     <h1>Already Exists!</h1>
     <p>Original URL: {{ object.url }}</p>
     <p>Short URL: {{ object.get_short_url }}</p>
+    {% if object.clickevent %}
+        <p>All Clicks: {{ object.clickevent.count }}</p>
+    {% endif %}
     <a href="/">+ New</a>
 </div>

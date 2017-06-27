@@ -2,6 +2,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.views import View
 
+from analytics.models import ClickEvent
+
 from .forms import SubmitUrlForm
 from .models import KirrURL
 
@@ -39,8 +41,12 @@ class HomeView(View):
 class KirrRedirectView(View): # class based view CBV
     def get(self, request, shortcode=None, *args, **kwargs):
         obj = get_object_or_404(KirrURL, shortcode=shortcode)
+        ClickEvent.objects.create_event(obj)
         # return HttpResponse("URL: {sc}".format(sc=obj.url))
-        return HttpResponseRedirect(obj.url)
+        new_url = obj.url
+        if not "http" in new_url:
+            new_url = "http://" + new_url
+        return HttpResponseRedirect(new_url)
 
     def post(self, request, *args, **kwargs):
         return HttpResponse()
