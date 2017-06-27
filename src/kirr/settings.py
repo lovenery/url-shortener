@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [config('APP_HOST')]
 
 
 # Application definition
@@ -127,3 +127,8 @@ STATIC_URL = '/static/'
 SHORTCODE_MAX = 15
 SHORTCODE_MIN = 6
 APP_URL = config('APP_URL')
+
+# heroku: https://devcenter.heroku.com/articles/django-app-configuration#database-configuration
+import dj_database_url
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
