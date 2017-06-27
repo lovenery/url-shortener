@@ -16,13 +16,25 @@ class HomeView(View):
 
     def post(self, request, *args, **kwargs):
         form = SubmitUrlForm(request.POST)
-        if form.is_valid():
-            print("views.py, if form.is_valid(), form.cleaned_data: ", form.cleaned_data)
         context = {
-            "title": "Result",
+            "title": "Whoops!",
             "form": form
         }
-        return render(request, "shortener/home.html", context)
+        template = "shortener/home.html"
+        if form.is_valid():
+            # print("views.py, if form.is_valid(), form.cleaned_data: ", form.cleaned_data)
+            new_url = form.cleaned_data.get("url")
+            obj, created = KirrURL.objects.get_or_create(url=new_url)
+            context = {
+                "object": obj,
+                "created": created,
+            }
+            if created:
+                template = "shortener/success.html"
+            else:
+                template = "shortener/already-exists.html"
+
+        return render(request, template, context)
 
 class KirrRedirectView(View): # class based view CBV
     def get(self, request, shortcode=None, *args, **kwargs):
